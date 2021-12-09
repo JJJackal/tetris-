@@ -5,6 +5,8 @@ import './App.css';
 //import components
 import GridBoard from './components/GridBoard';
 import NextBlock from './components/NextBlock';
+import ScoreBoard from './components/ScoreBoard';
+
 
 
 function App() {
@@ -15,6 +17,7 @@ function App() {
       </header>
       <GridBoard />
       <NextBlock />
+      <ScoreBoard />
     </div>
   );
 }
