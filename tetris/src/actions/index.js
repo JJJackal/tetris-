@@ -34,3 +34,20 @@ export const moveRight = () => {
   export const restart = () => {
     return { type: RESTART }
   }
+
+  //returns the default grid 
+  export const gridDefault = () => {
+    const rows = 18;
+    const cols = 10;
+    const array= [];
+
+    //fill array with 18 arrays each containing 10 zeroes
+
+    for (let i=0; i < rows; i++) {
+      array.push([]);
+        for (let j = 0; j < cols; j++) {
+          array[i].push(0);
+        } 
+    }
+    return array;
+  }
