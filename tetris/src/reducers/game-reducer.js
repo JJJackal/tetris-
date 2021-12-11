@@ -38,42 +38,50 @@ import {
   
         return state
   
-      case MOVE_DOWN:
-        //get the next potential y position
-        const maybeY = y +1;
-        //check if the current block can move here 
-        if (canMoveTo(shape, grid, x, maybeY, rotation)) {
-          //if so, move the block
-          return { ...state, y: maybeY};
-        }
-        //if not, place the block 
-        const newGrid = addBlockToGrid(shape, grid, x, y, rotation);
-        //reset some things to start a new shape/block
-        const newState = defaultState();
-        newState.grid = newGrid;
-        newState.shape = nextShape;
-        newState.nextShape = nextShape;
-        newState.score = score;
-        newState.isRunning = isRunning;
+        case MOVE_DOWN:
+          // Get the next potential Y position
+          const maybeY = y + 1
         
-        if (!canMoveTo(nextShape, newGrid, 0, 4, 0)) {
-          //game over
-          console.log("game should be over...");
-          newState.shape = 0;
-          return { ...state, gameOver: true }
-        }
-        //update the scare based on if rows were completed or not
-        newState.score = score + checkRows(newGrid);
+          // Check if the current block can move here
+          if (canMoveTo(shape, grid, x, maybeY, rotation)) {
+              // If so move down don't place the block
+              return { ...state, y: maybeY }
+          }
         
-        return state
+          // If not place the block
+          // (this returns an object with a grid and gameover bool)
+          const obj = addBlockToGrid(shape, grid, x, y, rotation)
+          const newGrid = obj.grid
+          const gameOver = obj.gameOver
+        
+          if (gameOver) {
+            // Game Over
+            const newState = { ...state }
+            newState.shape = 0
+            newState.grid = newGrid
+            return { ...state, gameOver: true }
+          }
+        
+          // reset somethings to start a new shape/block
+          const newState = defaultState()
+          newState.grid = newGrid
+          newState.shape = nextShape
+          newState.score = score
+          newState.isRunning = isRunning
+        
+          // TODO: Check and Set level
+          // Score increases decrease interval
+          newState.score = score + checkRows(newGrid)
+        
+          return newState
   
       case RESUME:
   
-        return state
+        return { ...state, isRunning: true};
   
       case PAUSE:
   
-        return state
+        return { ...state, isRunning: false}
   
       case GAME_OVER:
   
@@ -81,7 +89,7 @@ import {
   
       case RESTART:
   
-        return state
+        return defaultState()
   
       default:
         return state
