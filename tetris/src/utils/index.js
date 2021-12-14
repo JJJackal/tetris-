@@ -155,35 +155,35 @@ export const nextRotation = (shape, rotation) => {
 }
 
 export const canMoveTo = (shape, grid, x, y, rotation) => {
-  const currentShape = shapes[shape][rotation];
-  //loop through all rows and cols of the *shape*
+  const currentShape = shapes[shape][rotation]
+  // Get the width and height of the grid
+  const gridWidth = grid[0].length - 1
+  const gridHeight = grid.length - 1
+  // Loop over the shape array
   for (let row = 0; row < currentShape.length; row++) {
-    for (let col = 0; col < currentShape[row].length; col++) {
-      //look for a 1 here 
-      if (currentShape[row][col] !== 0) {
-        //x offset on grid
-        const proposedX = col + x;
-        //y offset on grid
-        const proposedY = row + y;
-        if (proposedY < 0 ) {
-          continue
-        }
-        //get the row on the grid
-        const possibleRow = grid[proposedY];
-        //check if that row exists
-        if (possibleRow) {
-          //check if this column in the row is: undefined, or if its off the edges, or 0, or empty
-          if (possibleRow[proposedX] === undefined || possibleRow[proposedX] !==0) {
-            // undefined or not 0 and it's occupied we can't move here.
-            return false;
+      for (let col = 0; col < currentShape[row].length; col++) {
+          // If the value isn't 0 it's part of the shape
+          if (currentShape[row][col] !== 0) {
+              // Offset the square to map it to the larger grid
+              const proposedX = col + x
+              const proposedY = row + y
+              // Get the possible row. This might be undefined if we're above the top
+              const possibleRow = grid[proposedY]
+
+              // Off the left or right side or off the bottom return false
+              if (proposedX < 0 || proposedX > gridWidth || proposedY > gridHeight) {
+                  return false
+              } else if (possibleRow !== undefined) {
+                  // If the row is not undefined you're on the grid
+                  if (possibleRow[proposedX] !== 0) {
+                      // This square must be filled
+                      return false
+                  }
+              }
           }
-        } else {
-          return false;
-        }
       }
-    }
   }
-  return true;
+  return true
 }
 
 // Adds current shape to grid

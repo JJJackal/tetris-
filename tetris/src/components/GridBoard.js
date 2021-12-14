@@ -21,6 +21,7 @@ export default function GridBoard(props){
     const blockColor = shape;
     //map rows
     const gridSquares = grid.map((rowArray, row) => {
+        
         //map columns
         return rowArray.map((square, col) => {
             //find the block x and y on the shape grid by subtracting the x and y from the col and the row
@@ -30,7 +31,7 @@ export default function GridBoard(props){
             let color = square;
             //map current falling block to grid
             //for any squares that fall on the grid we need to look at the block array and see if there is a 1. in this case we use the block color.
-            if (blockX >= 0 && block.length && blockY >= 0 && blockY < block.length) {
+            if (blockX >= 0 && blockX < block.length && blockY >= 0 && blockY < block.length) {
                 color = block[blockY][blockX] === 0 ? color : blockColor;
             }
             //generate a unique key for every block
@@ -41,7 +42,8 @@ export default function GridBoard(props){
 
             return <GridSquare
                     key={k}
-                    color={color} />
+                    color={color} 
+                    />
             
         })
     })

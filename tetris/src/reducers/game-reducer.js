@@ -3,7 +3,7 @@ import { defaultState,
          canMoveTo,
           addBlockToGrid,
           checkRows,
-          randomShape      } from '../utils';
+                     } from '../utils';
 
 
 import {
